@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('mobile_number')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('team_id')->nullable();
+            $table->foreign('team_id')->references('id')->on('teams')->nullOnDelete();
         });
     }
 
@@ -27,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['team_id']);
+            $table->dropColumn('team_id');
+        });
     }
 };
