@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name')->unique();
-            $table->string('mobile_number')->unique();
-            $table->string('verification_code')->nullable();
-            $table->timestamp('mobile_number_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+
+            $table->foreignId('room_id');
+            $table->foreign('room_id')->references('id')->on('rooms');
+
+            $table->foreignId('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->string('text');
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('chats');
     }
 };
