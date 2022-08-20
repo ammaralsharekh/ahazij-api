@@ -22,6 +22,7 @@ Route::group([
     'prefix' => 'auth'
 ], function () {
     Route::post('register', 'Api\AuthController@register');
+    Route::post('verify_code', 'Api\AuthController@verify_code');
     Route::post('login', 'Api\AuthController@login');
 
     Route::group([

@@ -30,6 +30,36 @@ class AuthController extends Controller {
         return response($response, 200);
     }
 
+    public function verify_code (Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'verification_code' => 'required|string',
+            'mobile_number' => 'required|regex:/(009665)[0-9]/',
+        ]);
+        if ($validator->fails())
+        {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+        $user=User::where('mobile_number', $request['mobile_number'])->first();
+        if($user==null)
+        {
+            return response(['errors'=>"can't find mobile number"], 422);
+        }
+        if($user->verification_code != $request['verification_code'])
+        {
+            return response(['errors'=>'wrong verification code'], 422);
+        }
+        $user->mobile_number_verified_at=now();
+        $user->save();
+        $token = $user->createToken('Personal Access Token');
+
+        $token->accessToken->expires_at = Carbon::now()->addHours(2);
+
+        $token->accessToken->save();
+
+        return response($token);
+    }
+
 	/**
 	 * Login user and create token
 	 *
@@ -61,11 +91,11 @@ class AuthController extends Controller {
 		$user = $request->user();
 
 		$tokenResult = $user->createToken('Personal Access Token');
-		$token = $tokenResult->token;
+        $token = $tokenResult->token;
 
-		$token->expires_at = Carbon::now()->addHours(2);
+        $token->expires_at = Carbon::now()->addHours(2);
 
-		$token->save();
+        $token->save();
 
 		return response()->json([
 			'access_token' => $tokenResult->accessToken,
