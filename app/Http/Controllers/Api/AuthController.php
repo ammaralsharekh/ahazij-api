@@ -24,7 +24,9 @@ class AuthController extends Controller {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
         $request['password']=Hash::make($request['password']);
-        $response = ['verify_code' => Str::random(4)];
+        $request['verification_code'] = rand(1000,9999);
+        User::create($request->toArray());
+        $response = ['verification_code' => $request['verification_code']];
         return response($response, 200);
     }
 
