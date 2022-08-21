@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('match_id');
-            $table->foreign('match_id')->references('id')->on('matches');
+            $table->foreignId('game_id');
+            $table->foreign('game_id')->references('id')->on('games');
             $table->timestamp('start_at');
             $table->timestamp('end_at');
             $table->timestamps();

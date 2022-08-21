@@ -6,7 +6,7 @@ use App\Models\Team;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TeamSeader extends Seeder
+class TeamSeeder extends Seeder
 {
     /**
      * Run the database seeds.
