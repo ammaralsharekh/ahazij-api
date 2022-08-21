@@ -72,7 +72,7 @@ class AuthController extends Controller {
 	public function login(Request $request) {
 
 		$validator = Validator::make($request->all(), [
-			'email' => 'required|string|email',
+            'mobile_number' => 'required|regex:/(009665)[0-9]/',
 			'password' => 'required|string',
 		]);
 
@@ -80,7 +80,7 @@ class AuthController extends Controller {
 			return response()->json(['errors' => $validator->errors()], 400);
 		}
 
-		$credentials = request(['email', 'password']);
+		$credentials = request(['mobile_number', 'password']);
 
 		if (!Auth::attempt($credentials)) {
 			return response()->json([
@@ -90,20 +90,12 @@ class AuthController extends Controller {
 
 		$user = $request->user();
 
-		$tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
+        $user->verification_code=rand(1000,9999);
+        $user->save();
+        $response = ['verification_code' => $user->verification_code];
+        return response($response, 200);
 
-        $token->expires_at = Carbon::now()->addHours(2);
 
-        $token->save();
-
-		return response()->json([
-			'access_token' => $tokenResult->accessToken,
-			'token_type' => 'Bearer',
-			'expires_at' => Carbon::parse(
-				$tokenResult->token->expires_at
-			)->toDateTimeString(),
-		]);
 	}
 
 	/**
