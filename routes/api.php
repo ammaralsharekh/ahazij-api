@@ -21,6 +21,11 @@ Route::group([ 'middleware' => 'AuthApi'], function () {
     Route::get('team', 'Api\TeamController@index');
 });
 
+Route::group([ 'middleware' => 'AuthApi'], function () {
+    Route::get('game', 'Api\GameController@index');
+});
+
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
