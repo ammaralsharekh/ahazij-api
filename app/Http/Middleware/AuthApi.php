@@ -22,8 +22,9 @@ class AuthApi
 
         if(!empty($request->bearerToken()))
         {
-            $is_exists = DB::table('personal_access_tokens')->where([['token',$request->bearerToken()],['expires_at','>',now()]])->first();
-            if($is_exists){
+            $personal_access_tokens = DB::table('personal_access_tokens')->where([['token',$request->bearerToken()],['expires_at','>',now()]])->first();
+            if($personal_access_tokens){
+                $request['user_id']=$personal_access_tokens->tokenable_id;
                 return $next($request);
             }
         }

@@ -27,6 +27,8 @@ return new class extends Migration
 
             $table->timestamp('date_time');
 
+            $table->boolean('is_room_created')->default(false);
+
             $table->timestamps();
         });
     }

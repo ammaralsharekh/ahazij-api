@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
-
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date_time' => 'datetime',
+    ];
     public function league()
     {
         return $this->belongsTo(League::class);
