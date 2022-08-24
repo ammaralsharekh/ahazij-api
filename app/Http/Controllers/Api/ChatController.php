@@ -14,9 +14,14 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function timeline($room_id,$chat_id=null,$is_up=true)
     {
-        //
+        $query=Chat::query()->where('room_id',$room_id)->orderBy('id','desc')->limit(30);
+        if($chat_id !=null)
+        {
+            $query->where('id',$is_up?'>':'<',$chat_id);
+        }
+        return  $query->get();
     }
 
     /**
