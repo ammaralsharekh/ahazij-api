@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,10 +28,19 @@ class ChatController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'tex' => 'required|regex:/(009665)[0-9]/',
-            'password' => 'required|string',
+            'room_id' => 'required|numeric|exists:rooms,id',
+            'text' => 'required',
         ]);
-
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $chat=new Chat();
+        $chat->room_id=$request['room_id'];
+        $chat->text=$request['text'];
+        $chat->user_id=$request['user_id'];
+        $chat->save();
+        $response = ['message' => 'chat created'];
+        return response($response, 200);
     }
 
     /**

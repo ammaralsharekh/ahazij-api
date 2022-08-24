@@ -40,3 +40,6 @@ Route::group([
     });
 });
 
+Route::group([ 'middleware' => 'AuthApi'], function () {
+    Route::post('chat', 'Api\ChatController@store');
+});
