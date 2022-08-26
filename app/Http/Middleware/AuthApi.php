@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\PersonalAccessTokens;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -22,8 +23,11 @@ class AuthApi
 
         if(!empty($request->bearerToken()))
         {
-            $personal_access_tokens = DB::table('personal_access_tokens')->where([['token',$request->bearerToken()],['expires_at','>',now()]])->first();
+            $personal_access_tokens = PersonalAccessTokens::query()->where(
+                [['token',$request->bearerToken()],['expires_at','>',now()]])->first();
             if($personal_access_tokens){
+                $personal_access_tokens->last_used_at=now();
+                $personal_access_tokens->save();
                 $request['user_id']=$personal_access_tokens->tokenable_id;
                 return $next($request);
             }
