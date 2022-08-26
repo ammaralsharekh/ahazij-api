@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TokenResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,11 +54,12 @@ class AuthController extends Controller {
         $user->save();
         $token = $user->createToken('Personal Access Token');
 
-        $token->accessToken->expires_at = Carbon::now()->addHours(2);
+        $token->accessToken->expires_at = Carbon::now()->addYear();
 
         $token->accessToken->save();
 
-        return response($token);
+        $token->accessToken->makeVisible('token');
+        return new TokenResource($token);
     }
 
 	/**
