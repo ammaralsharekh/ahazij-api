@@ -57,6 +57,7 @@ class AuthController extends Controller {
 
         $token->accessToken->save();
 
+        $token->accessToken->makeVisible('token');
         return response($token);
     }
 
