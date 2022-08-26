@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TokenResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -58,7 +59,7 @@ class AuthController extends Controller {
         $token->accessToken->save();
 
         $token->accessToken->makeVisible('token');
-        return response($token);
+        return new TokenResource($token);
     }
 
 	/**
