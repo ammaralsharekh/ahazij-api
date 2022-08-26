@@ -42,4 +42,5 @@ Route::group([
 
 Route::group([ 'middleware' => 'AuthApi'], function () {
     Route::post('chat', 'Api\ChatController@store');
+    Route::get('chat/{room_id}/{chat_id?}/{is_up?}', 'Api\ChatController@timeline');
 });
