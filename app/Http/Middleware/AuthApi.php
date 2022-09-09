@@ -33,7 +33,7 @@ class AuthApi
             }
         }
         return response()->json([
-        'errors' => ['auth'=>'incorrect api credentials'],
+        'errors' => ['auth'=>['incorrect api credentials']],
     ], 401);;
     }
 }
