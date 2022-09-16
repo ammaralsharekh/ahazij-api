@@ -26,7 +26,7 @@ class TokenResource extends JsonResource
         return [
             'token'=>$this->accessToken->token,
             'expires_at'=>$this->accessToken->expires_at,
-            'tokenable_id'=>$this->accessToken->tokenable_id
+            //'tokenable_id'=>$this->accessToken->tokenable_id
         ];
     }
 }

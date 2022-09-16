@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 Route::group([ 'middleware' => 'AuthApi'], function () {
+    //team
     Route::get('team', 'Api\TeamController@index');
-});
+    Route::get('my_team', 'Api\TeamController@my_team');
+    Route::get('register_to_team', 'Api\TeamController@register_to_team');
 
-Route::group([ 'middleware' => 'AuthApi'], function () {
+    //game
     Route::get('game', 'Api\GameController@index');
 });
 

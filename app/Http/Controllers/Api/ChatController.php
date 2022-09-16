@@ -37,7 +37,7 @@ class ChatController extends Controller
             'text' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            return response(['errors'=>$validator->errors()->all()], 422);
         }
         $chat=new Chat();
         $chat->room_id=$request['room_id'];

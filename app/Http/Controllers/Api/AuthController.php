@@ -44,11 +44,11 @@ class AuthController extends Controller {
         $user=User::where('mobile_number', $request['mobile_number'])->first();
         if($user==null)
         {
-            return response(['errors'=>["can't find mobile number"]], 422);
+            return response(['errors'=>$validator->errors()->all()], 422);
         }
         if($user->verification_code != $request['verification_code'])
         {
-            return response(['errors'=>['wrong verification code']], 422);
+            return response(['errors'=>$validator->errors()->all()], 422);
         }
         $user->mobile_number_verified_at=now();
         $user->save();
@@ -79,7 +79,7 @@ class AuthController extends Controller {
 		]);
 
 		if ($validator->fails()) {
-			return response()->json(['errors' => $validator->errors()], 400);
+			return response(['errors'=>$validator->errors()->all()], 422);
 		}
 
 		$credentials = request(['mobile_number', 'password']);
