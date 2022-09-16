@@ -21,7 +21,7 @@ Route::group([ 'middleware' => 'AuthApi'], function () {
     //team
     Route::get('team', 'Api\TeamController@index');
     Route::get('my_team', 'Api\TeamController@my_team');
-    Route::get('register_to_team', 'Api\TeamController@register_to_team');
+    Route::post('register_to_team', 'Api\TeamController@register_to_team');
 
     //game
     Route::get('game', 'Api\GameController@index');
